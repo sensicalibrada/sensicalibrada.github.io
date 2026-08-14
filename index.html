@@ -3,131 +3,513 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Otimização</title>
+<title>Controle de Mira</title>
+
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-body{
-    background:#000;
-    color:#fff;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+
+body {
+    background:
+        radial-gradient(circle at center, #260015 0%, #0b080c 55%, #050505 100%);
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-#login, #painel{
-    background:#111;
-    width:350px;
-    padding:25px;
-    border-radius:20px;
-    text-align:center;
+
+/* PAINEL */
+.panel {
+    width: 680px;
+    max-width: 94%;
+    background: rgba(10, 12, 14, 0.96);
+    border: 3px solid #ff0872;
+    border-radius: 28px;
+    box-shadow:
+        0 0 15px #ff0872,
+        0 0 45px rgba(255, 0, 110, .45);
+    overflow: hidden;
 }
-#painel{
-    display:none;
+
+/* TOPO */
+.header {
+    height: 105px;
+    display: flex;
+    align-items: center;
+    padding: 0 28px;
+    border-bottom: 2px solid rgba(255, 0, 110, .45);
 }
-h1{
-    color:#00ff88;
-    margin-bottom:20px;
+
+.logo {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ff0872;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 22px;
+    position: relative;
 }
-input{
-    width:100%;
-    padding:12px;
-    margin:8px 0;
-    border:none;
-    border-radius:10px;
-    background:#222;
-    color:white;
+
+.logo::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    border: 4px solid #ff0872;
+    border-radius: 50%;
 }
-button{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:none;
-    border-radius:10px;
-    background:#00ff88;
-    color:#000;
-    font-weight:bold;
-    cursor:pointer;
+
+.title {
+    color: #ff0872;
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: .5px;
 }
-.opcao{
-    background:#1a1a1a;
-    padding:12px;
-    border-radius:12px;
-    margin:10px 0;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+
+.close {
+    margin-left: auto;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: #29282c;
+    color: #ddd;
+    font-size: 32px;
+    cursor: pointer;
 }
-.switch{
-    width:50px;
-    height:25px;
+
+.close:hover {
+    background: #ff0872;
+    color: white;
+}
+
+/* ABAS */
+.tabs {
+    display: flex;
+    gap: 15px;
+    padding: 18px 28px;
+}
+
+.tab {
+    padding: 15px 30px;
+    border-radius: 30px;
+    border: none;
+    background: #111315;
+    color: #888;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.tab.active {
+    background: #ff0872;
+    color: #111;
+    font-weight: bold;
+}
+
+/* CONTEÚDO */
+.content {
+    padding: 5px 28px 35px;
+}
+
+.option {
+    background: #0d1012;
+    border-radius: 20px;
+    padding: 22px;
+    margin-top: 18px;
+    border: 1px solid transparent;
+}
+
+.option:hover {
+    border-color: rgba(255, 0, 110, .5);
+}
+
+.option.highlight {
+    border: 2px solid #ff0872;
+}
+
+.option-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.option-name {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.option-description {
+    color: #aaa;
+    margin-top: 7px;
+    font-size: 16px;
+}
+
+/* SWITCH */
+.switch {
+    position: relative;
+    width: 76px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position: absolute;
+    inset: 0;
+    background: #151719;
+    border: 1px solid #292d30;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    left: 5px;
+    top: 5px;
+    border-radius: 50%;
+    background: white;
+    transition: .25s;
+}
+
+.switch input:checked + .slider {
+    background: #ff0872;
+    box-shadow: 0 0 15px rgba(255, 0, 110, .7);
+}
+
+.switch input:checked + .slider::before {
+    transform: translateX(36px);
+}
+
+/* FOV */
+.fov {
+    margin-top: 22px;
+    padding: 0 10px 5px;
+}
+
+.fov-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.fov-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.fov-value {
+    color: #ff0872;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 8px;
+    appearance: none;
+    background: #292c2f;
+    border-radius: 10px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background: #ff0872;
+    cursor: pointer;
+    box-shadow: 0 0 15px #ff0872;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background: #ff0872;
+    border: none;
+    cursor: pointer;
+}
+
+/* ABA GERADOR */
+.generator {
+    display: none;
+    padding: 10px 0 25px;
+}
+
+.generator.active {
+    display: block;
+}
+
+.generator-box {
+    background: #0d1012;
+    border-radius: 20px;
+    padding: 25px;
+    margin-top: 5px;
+}
+
+.generator button {
+    width: 100%;
+    padding: 17px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 15px;
+    background: #ff0872;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.generator button:hover {
+    box-shadow: 0 0 20px #ff0872;
+}
+
+/* RESPONSIVO */
+@media(max-width:600px) {
+    .panel {
+        width: 95%;
+        border-radius: 22px;
+    }
+
+    .header {
+        height: 80px;
+        padding: 0 18px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .logo {
+        width: 42px;
+        height: 42px;
+        margin-right: 15px;
+    }
+
+    .tabs {
+        padding: 14px 18px;
+    }
+
+    .tab {
+        font-size: 14px;
+        padding: 13px 18px;
+    }
+
+    .content {
+        padding: 0 18px 25px;
+    }
+
+    .option-name {
+        font-size: 18px;
+    }
+
+    .option-description {
+        font-size: 14px;
+    }
 }
 </style>
 </head>
+
 <body>
-<div id="login">
-    <h1>LOGIN</h1>
-    <form id="loginForm">
-        <input type="text" id="usuario" placeholder="Usuário">
-        <input type="password" id="senha" placeholder="Senha">
-        <button type="submit">ENTRAR</button>
-    </form>
+
+<div class="panel">
+
+    <div class="header">
+        <div class="logo"></div>
+
+        <div class="title">
+            CONTROLE DE MIRA
+        </div>
+
+        <button class="close" onclick="fecharPainel()">×</button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="abrirAba('mira', this)">
+            Auxílio de mira
+        </button>
+
+        <button class="tab" onclick="abrirAba('gerador', this)">
+            Gerador de sensi
+        </button>
+    </div>
+
+    <div class="content">
+
+        <!-- AUXÍLIO DE MIRA -->
+        <div id="mira">
+
+            <div class="option">
+
+                <div class="option-info">
+
+                    <div>
+                        <div class="option-name">
+                            Aimbot
+                        </div>
+
+                        <div class="option-description">
+                            Melhora a precisão na cabeça do alvo
+                        </div>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" id="aimbot">
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="option highlight">
+
+                <div class="option-info">
+
+                    <div>
+                        <div class="option-name">
+                            Aumentar Precisão
+                        </div>
+
+                        <div class="option-description">
+                            Mira mais precisa e controlada
+                        </div>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" id="precisao">
+                        <span class="slider"></span>
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="fov">
+
+                <div class="fov-top">
+
+                    <div class="fov-title">
+                        FOV
+                    </div>
+
+                    <div class="fov-value" id="fovValue">
+                        10
+                    </div>
+
+                </div>
+
+                <input
+                    type="range"
+                    min="1"
+                    max="100"
+                    value="10"
+                    id="fov"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- GERADOR -->
+        <div id="gerador" class="generator">
+
+            <div class="generator-box">
+
+                <div class="option-name">
+                    Gerador de sensibilidade
+                </div>
+
+                <div class="option-description">
+                    Ajuste os valores da sensibilidade.
+                </div>
+
+                <button onclick="gerarSensi()">
+                    GERAR SENSI
+                </button>
+
+                <div
+                    id="resultado"
+                    style="
+                    text-align:center;
+                    margin-top:20px;
+                    color:#ff0872;
+                    font-size:22px;
+                    font-weight:bold;
+                    "
+                ></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
-<div id="painel">
-    <h1>OTIMIZAÇÃO</h1>
-    <div class="opcao">
-        <span>Calibrar Sensi</span>
-        <input type="checkbox" class="switch">
-    </div>
-    <div class="opcao">
-        <span>Mira Estável</span>
-        <input type="checkbox" class="switch">
-    </div>
-    <div class="opcao">
-        <span>120 FPS</span>
-        <input type="checkbox" class="switch">
-    </div>
-    <div class="opcao">
-        <span>RAM Boost</span>
-        <input type="checkbox" class="switch">
-    </div>
-    <div class="opcao">
-        <span>Reduzir Lag</span>
-        <input type="checkbox" class="switch">
-    </div>
-    <div class="opcao">
-        <span>Otimizar Toque</span>
-        <input type="checkbox" class="switch">
-    </div>
-    <div class="opcao">
-        <span>Melhorar Mira</span>
-        <input type="checkbox" class="switch">
-    </div>
-    <div class="opcao">
-        <span>Limpar Cache</span>
-        <input type="checkbox" class="switch">
-    </div>
-    <button onclick="aplicar()">APLICAR CONFIGURAÇÕES</button>
-</div>
+
+
 <script>
-document.getElementById("loginForm").addEventListener("submit", function(e){
-    e.preventDefault();
-    let usuario = document.getElementById("usuario").value.trim();
-    let senha = document.getElementById("senha").value.trim();
-    if(usuario === "1" && senha === "1"){
-        document.getElementById("login").style.display = "none";
-        document.getElementById("painel").style.display = "block";
-    }else{
-        alert("Usuário ou senha incorretos");
-    }
+
+const fov = document.getElementById("fov");
+const fovValue = document.getElementById("fovValue");
+
+fov.addEventListener("input", function() {
+    fovValue.textContent = this.value;
 });
-function aplicar(){
-    alert("Configurações aplicadas com sucesso!");
+
+
+function abrirAba(aba, botao) {
+
+    document.querySelectorAll(".tab")
+        .forEach(t => t.classList.remove("active"));
+
+    botao.classList.add("active");
+
+    document.getElementById("mira").style.display =
+        aba === "mira" ? "block" : "none";
+
+    document.getElementById("gerador").style.display =
+        aba === "gerador" ? "block" : "none";
 }
+
+
+function gerarSensi() {
+
+    const geral = Math.floor(Math.random() * 101);
+    const redDot = Math.floor(Math.random() * 101);
+    const scope2x = Math.floor(Math.random() * 101);
+    const scope4x = Math.floor(Math.random() * 101);
+
+    document.getElementById("resultado").innerHTML =
+        "Geral: " + geral +
+        "<br>Red Dot: " + redDot +
+        "<br>2x: " + scope2x +
+        "<br>4x: " + scope4x;
+}
+
+
+function fecharPainel() {
+    document.querySelector(".panel").style.display = "none";
+}
+
 </script>
+
 </body>
 </html>
